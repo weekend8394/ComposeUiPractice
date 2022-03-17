@@ -1,4 +1,22 @@
 <resources>
     <string name="app_name">Compose Ui Practice</string>
     <string name="hint_search">Compose Ui Practice</string>
+    <string name="title_search">Search</string>
+    <string name="top_genres">Your top genres</string>
+    <string name="browse_all">Browse all</string>
+
+
+    <string name="pop">Pop</string>
+    <string name="rnb">RnB</string>
+    <string name="hip_hop">Hip Hop</string>
+    <string name="kpop">K-Pop</string>
+
+    <string name="genre_1">Podcasts</string>
+    <string name="genre_2">Made for you</string>
+    <string name="genre_3">Charts</string>
+    <string name="genre_4">New Releases</string>
+    <string name="genre_5">Discover</string>
+    <string name="genre_6">Concerts</string>
+    <string name="genre_7">At home</string>
+    <string name="genre_8">Mood</string>
 </resources>

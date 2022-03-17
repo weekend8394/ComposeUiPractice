@@ -1,79 +1,90 @@
 package com.cockroach.composeuipractice.ui.screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.Icon
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cockroach.composeuipractice.R
+import com.cockroach.composeuipractice.data.allGenresList
+import com.cockroach.composeuipractice.data.topGenresList
+import com.cockroach.composeuipractice.extension.toDp
+import com.cockroach.composeuipractice.ui.compose.SearchBox
+import com.cockroach.composeuipractice.ui.compose.SearchItem
 
 @Composable
 fun SearchScreen() {
-    val hint = stringResource(id = R.string.hint_search)
-    var text by remember { mutableStateOf("") }
-    var isHintDisplayed by remember { mutableStateOf(hint != "") }
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.toDp
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.padding(horizontal = 16.dp)
     ) {
-        Text(
-            text = ("Search"),
-            color = Color.White,
-            fontSize = MaterialTheme.typography.h2.fontSize,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        )
+        item { Spacer(modifier = Modifier.height(32.dp)) }
 
-        //Search Box
-        Box(
-            modifier = Modifier
-                .padding(horizontal = 10.dp)
-        ) {
-            BasicTextField(
-                value = text,
-                onValueChange = {
-                    text = it
-                },
-                maxLines = 1,
-                singleLine = true,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White, RoundedCornerShape(5.dp))
-                    .padding(horizontal = 20.dp, vertical = 20.dp)
-                    .onFocusChanged {
-                        isHintDisplayed = !it.isFocused && text == ""
-                    }
+        item {
+            Text(
+                text = stringResource(id = R.string.title_search),
+                color = Color.White,
+                fontSize = MaterialTheme.typography.h5.fontSize,
+                fontWeight = FontWeight.Bold,
             )
+        }
 
-            if (isHintDisplayed) {
+        item {
+            SearchBox()
+        }
+
+        item {
+            Text(text = stringResource(id = R.string.top_genres), color = Color.White, style = MaterialTheme.typography.subtitle1)
+            Spacer(Modifier.height(8.dp))
+        }
+
+        items(topGenresList.chunked(2)) { row ->
+            val first = row.first()
+            val second = row.last()
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Row {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "",
-                        modifier = Modifier
-                            .padding(horizontal = 10.dp, vertical = 12.dp)
-                    )
-                    Text(
-                        text = hint,
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 12.dp),
-                        style = MaterialTheme.typography.subtitle1
-                    )
+                    SearchItem(searchCategory = first, (screenWidth / 2.3).toInt())
+                    Spacer(modifier = Modifier.width(8.dp))
+                    SearchItem(searchCategory = second, (screenWidth / 2.3).toInt())
+
                 }
             }
+        }
+
+        item {
+            Text(
+                text = stringResource(id = R.string.browse_all),
+                color = Color.White,
+                style = MaterialTheme.typography.subtitle1
+            )
+            Spacer(Modifier.height(8.dp))
+        }
+
+        items(allGenresList.chunked(2)) { row ->
+            val first = row.first()
+            val second = row.last()
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Row {
+                    SearchItem(searchCategory = first, (screenWidth / 2.3).toInt())
+                    Spacer(Modifier.width(8.dp))
+                    SearchItem(searchCategory = second, (screenWidth / 2.3).toInt())
+                }
+            }
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(100.dp))
         }
     }
 }
