@@ -1,7 +1,9 @@
 package com.cockroach.composeuipractice.ui.compose
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -12,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -20,11 +24,17 @@ import com.cockroach.composeuipractice.extension.toDp
 
 @Composable
 fun SearchItem(searchCategory: SearchCategory, width: Int) {
+    val context = LocalContext.current
     Box(
         Modifier
             .size(width = width.toDp.dp, height = 100.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(searchCategory.color)
+            .clickable {
+                Toast
+                    .makeText(context, searchCategory.title, Toast.LENGTH_SHORT)
+                    .show()
+            }
     ) {
         Column {
             Text(

@@ -10,11 +10,8 @@ import com.cockroach.composeuipractice.ui.theme.ComposeUiPracticeTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val width = displayMetrics.widthPixels
         setContent {
-            ComposeUiPracticeTheme{
+            ComposeUiPracticeTheme(darkTheme = true){
                 MainScreen()
             }
         }

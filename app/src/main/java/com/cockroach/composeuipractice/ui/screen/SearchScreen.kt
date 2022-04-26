@@ -1,5 +1,6 @@
 package com.cockroach.composeuipractice.ui.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,20 +11,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cockroach.composeuipractice.R
 import com.cockroach.composeuipractice.data.allGenresList
 import com.cockroach.composeuipractice.data.topGenresList
-import com.cockroach.composeuipractice.extension.toDp
 import com.cockroach.composeuipractice.ui.compose.SearchBox
 import com.cockroach.composeuipractice.ui.compose.SearchItem
 
 @Composable
 fun SearchScreen() {
     val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.toDp
+    val screenDensity = configuration.densityDpi / 160f
+    val screenWidth = configuration.screenWidthDp.dp.value * screenDensity
+    val context = LocalContext.current
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -41,7 +44,9 @@ fun SearchScreen() {
         }
 
         item {
-            SearchBox()
+            SearchBox(onSearch = {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            })
         }
 
         item {
@@ -57,7 +62,6 @@ fun SearchScreen() {
                     SearchItem(searchCategory = first, (screenWidth / 2.3).toInt())
                     Spacer(modifier = Modifier.width(8.dp))
                     SearchItem(searchCategory = second, (screenWidth / 2.3).toInt())
-
                 }
             }
         }

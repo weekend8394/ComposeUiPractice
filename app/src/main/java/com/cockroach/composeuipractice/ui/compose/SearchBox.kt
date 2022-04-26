@@ -21,7 +21,9 @@ import androidx.compose.ui.unit.dp
 import com.cockroach.composeuipractice.R
 
 @Composable
-fun SearchBox(){
+fun SearchBox(
+    onSearch: (String) -> Unit = {}
+) {
     val hint = stringResource(id = R.string.hint_search)
     var text by remember { mutableStateOf("") }
     var isHintDisplayed by remember { mutableStateOf(hint != "") }
@@ -31,6 +33,7 @@ fun SearchBox(){
             value = text,
             onValueChange = {
                 text = it
+                onSearch(it)
             },
             maxLines = 1,
             singleLine = true,
